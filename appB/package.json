@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "npx copyfiles --flat ../tests/lib/fdc3-compliance.js lib",
-    "start": "http-server -p 4000"
+    "start": "http-server -p 3000"
   },
   "license": "Apache-2.0"
 }

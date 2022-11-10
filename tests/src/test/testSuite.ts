@@ -16,20 +16,20 @@ import fdc3RaiseIntent from "./fdc3.raiseIntent";
 import fdc3RaiseIntentForContext from "./fdc3.raiseIntentForContext";
 
 const testSuites = [
-  fdc3AddContextListener,
-  fdc3AddIntentListener,
-  fdc3Broadcast,
-  fdc3GetCurrentChannel,
-  fdc3GetInfo,
-  fdc3GetOrCreateChannel,
-  fdc3GetSystemChannels,
-  fdc3JoinChannel,
-  fdc3LeaveCurrentChannel,
-  fdc3FindIntent,
+  // fdc3AddContextListener,
+  // fdc3AddIntentListener,
+  // fdc3Broadcast,
+  // fdc3GetCurrentChannel,
+  // fdc3GetInfo,
+  // fdc3GetOrCreateChannel,
+  // fdc3GetSystemChannels,
+  // fdc3JoinChannel,
+  // fdc3LeaveCurrentChannel,
+  // fdc3FindIntent,
   fdc3Open,
-  fdc3RaiseIntent,
-  fdc3RaiseIntentForContext,
-  fdc3FindIntentsByContext,
+  // fdc3RaiseIntent,
+  // fdc3RaiseIntentForContext,
+  // fdc3FindIntentsByContext,
 ];
 
 /**

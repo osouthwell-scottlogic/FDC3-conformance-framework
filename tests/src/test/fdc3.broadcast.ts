@@ -1131,12 +1131,14 @@ export default () =>
       channel?: Channel
     ) => {
       return new Promise<Context>(async (resolve) => {
-        console.log(`Waiting for type: ${contextType}, on channel: ${channel.id} in test: ${testId}`)
+        console.log(
+          `Waiting for type: ${contextType}, on channel: ${channel.id} in test: ${testId}`
+        );
         const handler = (context: AppControlContext) => {
           if (testId) {
             if (testId == context.testId) {
               resolve(context);
-              if(executionListener) executionListener.unsubscribe();
+              if (executionListener) executionListener.unsubscribe();
             } else {
               console.warn(
                 `Ignoring ${contextType} context due to mismatched testId (expected: ${testId}, got ${context.testId})`
@@ -1144,7 +1146,7 @@ export default () =>
             }
           } else {
             resolve(context);
-            if(executionListener) executionListener.unsubscribe();
+            if (executionListener) executionListener.unsubscribe();
           }
         };
         if (channel === undefined) {

@@ -7,21 +7,21 @@ import { DesktopAgent } from "fdc3_1_2/dist/api/DesktopAgent";
 
 const appBName = "MockApp";
 const appBId = "MockAppId";
-const noListenerApp = "IntentAppAId";
+const noListenerAppId = "IntentAppAId";
+const noListenerAppName = "IntentAppA";
+const genericListenerAppId = "IntentAppBId";
+const genericListenerAppName = "IntentAppB";
+
 let timeout: number;
 
 // creates a channel and subscribes for broadcast contexts. This is
 // used by the 'mock app' to send messages back to the test runner for validation
 const createReceiver = (contextType: string) => {
   const messageReceived = new Promise<Context>(async (resolve, reject) => {
-    await (<DesktopAgent>(<unknown>window.fdc3)).getOrCreateChannel(
-      "FDC3-Conformance-Channel"
-    );
-    await (<DesktopAgent>(<unknown>window.fdc3)).joinChannel(
-      "FDC3-Conformance-Channel"
-    );
-
-    const listener = await (<DesktopAgent>(
+    await (<DesktopAgent>(<unknown>window.fdc3)).getOrCreateChannel("FDC3-Conformance-Channel");
+    await (<DesktopAgent>(<unknown>window.fdc3)).joinChannel("FDC3-Conformance-Channel");
+    
+    const listener = (<DesktopAgent>(
       (<unknown>window.fdc3)
     )).addContextListener(contextType, (context) => {
       resolve(context);
@@ -108,7 +108,7 @@ export default () =>
     });
     it("(AOpensBWithSpecificContext1) Can open app B from app A with context and string as target, app B adds specific listener", async () => {
       const receiver = createReceiver("fdc3-conformance-context-received");
-      await window.fdc3.open(appBName, {
+      await (<DesktopAgent>(<unknown>window.fdc3)).open(appBName, {
         name: "context",
         type: "fdc3.testReceiver",
       });
@@ -129,7 +129,7 @@ export default () =>
     });
     it("(AOpensBWithSpecificContext3) Can open app B from app A with context and AppMetadata (name and appId) as target, app B adds specific listener", async () => {
       const receiver = createReceiver("fdc3-conformance-context-received");
-      await window.fdc3.open(
+      await (<DesktopAgent>(<unknown>window.fdc3)).open(
         { name: appBName, appId: appBId },
         { name: "context", type: "fdc3.testReceiver" }
       );
@@ -140,7 +140,7 @@ export default () =>
 
     it("(AOpensBWithContext1) Can open app B from app A with context and string as target, app B adds generic listener", async () => {
       const receiver = createReceiver("fdc3-conformance-context-received");
-      await window.fdc3.open("IntentAppA", {
+      await (<DesktopAgent>(<unknown>window.fdc3)).open(genericListenerAppName, {
         name: "context",
         type: "fdc3.testReceiver",
       });
@@ -148,10 +148,10 @@ export default () =>
       expect(receivedValue.context.name).to.eq("context", openDocs);
       expect(receivedValue.context.type).to.eq("fdc3.testReceiver", openDocs);
     });
-    it("AOpensBWithContext2) Can open app B from app A with context and AppMetadata (name) as target, app B adds generic listener", async () => {
+    it("(AOpensBWithContext2) Can open app B from app A with context and AppMetadata (name) as target, app B adds generic listener", async () => {
       const receiver = createReceiver("fdc3-conformance-context-received");
-      await window.fdc3.open(
-        { name: "IntentAppA" },
+      await (<DesktopAgent>(<unknown>window.fdc3)).open(
+        { name: genericListenerAppName },
         { name: "context", type: "fdc3.testReceiver" }
       );
       const receivedValue = (await receiver) as any;
@@ -160,8 +160,8 @@ export default () =>
     });
     it("(AOpensBWithContext3) Can open app B from app A with context and AppMetadata (name and appId) as target, app B adds generic listener", async () => {
       const receiver = createReceiver("fdc3-conformance-context-received");
-      await window.fdc3.open(
-        { name: "IntentAppB", appId: "IntentAppAId" },
+      await (<DesktopAgent>(<unknown>window.fdc3)).open(
+        { name: genericListenerAppName, appId: genericListenerAppId },
         { name: "context", type: "fdc3.testReceiver" }
       );
       const receivedValue = (await receiver) as any;
@@ -171,7 +171,7 @@ export default () =>
 
     it("(AOpensBWithWrongContext) Receive AppTimeout error when targeting app with wrong context", async () => {
       try {
-        await window.fdc3.open(
+        await (<DesktopAgent>(<unknown>window.fdc3)).open(
           { name: appBName },
           { name: "context", type: "fdc3.thisContextDoesNotExist" }
         );
@@ -183,8 +183,8 @@ export default () =>
 
     it("(AOpensBNoListen) Receive AppTimeout error when targeting app with no listeners", async () => {
       try {
-        await window.fdc3.open(
-          { name: "aTestingIntent", appId: noListenerApp },
+        await (<DesktopAgent>(<unknown>window.fdc3)).open(
+          { name: noListenerAppName, appId: noListenerAppId },
           { name: "context", type: "fdc3.testReceiver" }
         );
         assert.fail("No error was not thrown", openDocs);
@@ -197,7 +197,7 @@ export default () =>
       const receiver = createReceiver(
         "fdc3-conformance-context-received-multiple"
       );
-      await window.fdc3.open(
+      await (<DesktopAgent>(<unknown>window.fdc3)).open(
         { name: appBName, appId: appBId },
         { name: "context", type: "fdc3.testReceiverMultiple" }
       );

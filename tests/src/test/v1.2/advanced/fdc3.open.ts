@@ -5,8 +5,7 @@ import constants from "../../../constants";
 import { DesktopAgent } from "fdc3_1_2/dist/api/DesktopAgent";
 import { sleep, wait } from "../../../utils";
 
-declare let fdc3 : DesktopAgent;
-
+declare let fdc3: DesktopAgent;
 const appBName = "MockApp";
 const appBId = "MockAppId";
 const noListenerAppId = "IntentAppAId";

@@ -243,6 +243,21 @@ export default () =>
       );
       await closeAppWindows(AOpensBMultipleListenTest);
     });
+
+    const AOpensBMalformedContext =
+      "(AOpensBMalformedContext) Can open app B from app A with context and string as target, app B adds specific listener";
+    it(AOpensBMalformedContext, async () => {
+      await fdc3.joinChannel("FDC3-Conformance-Channel");
+      const receiver = createReceiver("fdc3-conformance-context-received");
+      await fdc3.open(appBName, {
+        // @ts-ignore
+        name: "notAContext", type: 1,
+      });
+      const receivedValue = (await receiver) as any;
+      expect(receivedValue.context.name).to.eq("context", openDocs);
+      expect(receivedValue.context.type).to.eq("fdc3.testReceiver", openDocs);
+      await closeAppWindows(AOpensBMalformedContext);
+    });
   });
 
 // creates a channel and subscribes for broadcast contexts. This is
